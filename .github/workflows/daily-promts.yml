@@ -2,36 +2,40 @@ name: Daily LeetCode Prompt (C Version)
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 6 * * *"   # every day at 06:00 UTC
   workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      # 1️⃣ Checkout repo
       - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_PAT }}   # 👈 use PAT here
 
+      # 2️⃣ Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: pip install requests
 
+      # 4️⃣ Run your daily script
       - name: Run script
         run: python scripts/daily_prompt.py
 
+      # 5️⃣ Commit & push changes using PAT
       - name: Commit changes
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GH_PAT }}   # 👈 your stored PAT
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Add daily LeetCode C prompt [skip ci]" || echo "No changes to commit"
+          # Use the PAT for pushing
           git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git
-          git push origin HEAD:main   # pushes with PAT
+          git push origin HEAD:main
