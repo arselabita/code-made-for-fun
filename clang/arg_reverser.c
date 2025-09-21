@@ -1,5 +1,4 @@
 #include <unistd.h>
-#include <stdio.h>
 
 /*  
     Exercise 0.1. Write a program that prints all 
