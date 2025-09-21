@@ -13,21 +13,22 @@ int main(int ac, char **av)
 {
     int i;
     int j;
-    char **last;
 
     
     if (ac < 2)
         return (0);
-    i = 1;
-    while (i < ac)
+    i = ac - 1;
+    while (i > 0)
     {
-        last = av[i][ac - 1];
-        while (last[j])
+        j = 0;
+        while (av[i][j])
         {
-            write(1, &last, 1);
+            write(1, &av[i][j], 1);
             j++;
         }
-        i++;
+        if (i > 1)
+            write (1, " ", 1);
+        i--;
     }
  
     write(1, "\n", 1);
