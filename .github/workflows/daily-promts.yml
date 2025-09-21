@@ -2,8 +2,11 @@ name: Daily LeetCode Prompt (C Version)
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # every day at 06:00 UTC
+    - cron: "0 6 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update:
@@ -11,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -25,8 +30,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Add daily LeetCode C prompt [skip ci]" || echo "No changes to commit"
-          git push
+          git push origin HEAD:main   # 👈 push using the token from checkout
