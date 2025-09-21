@@ -9,36 +9,30 @@
     Output:            test world hello
 */
 
-int reverse(char *av)
-{
-    int j;
-    int end;
-
-    j = 0;
-    while (av[j])
-        j++;
-    end = 0;
-    while (av[j])
-    {
-        write(1, &av[j], 1);
-        j++;
-    }
-    write(1, " ", 1);
-    return (0);
-}
-
 int main(int ac, char **av)
 {
     int i;
+    int j;
+    char **last;
 
+    
     if (ac < 2)
         return (0);
     i = 1;
     while (i < ac)
     {
-        reverse(av[i]);
+        last = av[i][ac - 1];
+        while (last[j])
+        {
+            write(1, &last, 1);
+            j++;
+        }
         i++;
-    } 
+    }
+ 
     write(1, "\n", 1);
     return (0);
 }
+
+
+// arsela bita
