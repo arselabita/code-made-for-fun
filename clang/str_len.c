@@ -1,4 +1,4 @@
-#include <unistd.h>
+#include <stdio.h>
 
 /*
     Exercise 0.2. Write a program that prints each argument along with its length.
@@ -22,11 +22,9 @@ int main(int ac, char **av)
     {
         j = 0;
         while (av[i][j])
-        {
-            
-        }
+            j++;
+        printf("%s -> %d\n", av[i], j);
         i++;
     }
-    write(1, " ", 1);
     return (0);
 }
