@@ -42,7 +42,7 @@ char    *gnl(int fd)
 }
 int main()
 {
-    int fd = open("file", O_RDONLY);
+    int fd = open("file.txt", O_RDONLY);
     char *result = gnl(fd);
     printf("%s\n", result);
     free(result);
