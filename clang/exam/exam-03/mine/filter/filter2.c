@@ -1,15 +1,17 @@
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
-#include <stdio.h>
-# define BUFFER_SIZE 10
 
-int ft_strncmp(char *str, char *target, size_t n)
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 42
+#endif
+
+int ft_strncmp(char *line, char *target, size_t n)
 {
-    for(size_t i = 0; i < n && (str[i] || target[i]); i++)
+    for(size_t j = 0; j < n && (line[j] || target[j]); j++)
     {
-        if (str[i] != target[i])
-            return ((unsigned char)str[i] - (unsigned char)target[i]);
+        if (line[j] != target[j])
+            return ((unsigned char)line[j] - (unsigned char)target[j]);
     }
     return (0);
 }
@@ -25,7 +27,7 @@ void filter(char *line, char *target)
     {
         if (ft_strncmp(&line[i], target, len) == 0)
         {
-            for (size_t j = 0; j < len; j++)
+            for(size_t j = 0; j < len; j++)
                 write(1, "*", 1);
             i += len;
         }
@@ -55,10 +57,10 @@ char *ft_strncat(char *dest, char *src, size_t n)
 
 char *gnl(int fd)
 {
+    size_t len;
+    size_t read_bytes;
     char *line;
     char *buffer;
-    size_t read_bytes;
-    size_t len;
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
@@ -68,7 +70,7 @@ char *gnl(int fd)
     line[0] = '\0';
     buffer = (char *)malloc(BUFFER_SIZE + 1);
     if (!buffer)
-        return (free(line), NULL);
+        return (NULL);
     read_bytes = 0;
     len = 0;
     while ((read_bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
@@ -78,7 +80,7 @@ char *gnl(int fd)
             free(line);
             free(buffer);
         }
-        buffer[read_bytes] = '\0';
+        line[read_bytes] = '\0';
         ft_strncat(line, buffer, read_bytes);
         len += read_bytes;
         if (line[len - 1] == '\n')
@@ -96,7 +98,7 @@ int main(int ac, char **av)
 
     if (ac != 2)
         return (1);
-    while ((line = gnl(0)))
+    if ((line = gnl(0)))
     {
         filter(line, av[1]);
         free(line);

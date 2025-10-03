@@ -16,6 +16,18 @@ int ft_strncmp(char *s1, char *s2, size_t n)
 	}
 	return 0;
 }
+char *ft_strncat(char *dest, char *src, size_t n)
+{
+	size_t i = 0;
+	size_t j = strlen(dest);
+	while (i < n && src[i])
+	{
+		dest[j + i] = src[i];
+		i++;
+	}
+	dest[j + i] = '\0';
+	return dest;
+}
 
 void	filter(char *line, char *target)
 {
