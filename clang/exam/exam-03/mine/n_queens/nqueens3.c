@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void solve(int *pos, int col, int n);
 int is_safe(int *pos, int col, int row);
@@ -7,10 +7,13 @@ int my_abs(int x);
 
 int main(int ac, char **av)
 {
-    if (ac != 2)
+    int n;
+    int *pos;
+
+    if (ac != 2 && av[1][0] == '-')
         return (1);
-    int n = atoi(av[1]);
-    int *pos = (int *)malloc(sizeof(int) * n);
+    n = atoi(av[1]);
+    pos = (int *)malloc(sizeof(int) * n);
     if (!pos)
         return (1);
     solve(pos, 0, n);
@@ -50,6 +53,7 @@ int is_safe(int *pos, int col, int row)
     }
     return (1);
 }
+
 int my_abs(int x)
 {
     if (x < 0)
