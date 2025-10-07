@@ -1,12 +1,9 @@
+#include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 int my_abs(int x)
 {
-    if (x < 0)
-        return (-x);
-    else
-        return (x);
+    return (x < 0) ? -x : x;
 }
 
 int is_safe(int *pos, int col, int row)
@@ -14,9 +11,9 @@ int is_safe(int *pos, int col, int row)
     for (int i = 0; i < col; i++)
     {
         if (pos[i] == row || (my_abs(row - pos[i]) == (col - i)))
-            return (0);
+            return 0;
     }
-    return (1);
+    return 1;
 }
 
 void solve(int *pos, int col, int n)
@@ -25,9 +22,12 @@ void solve(int *pos, int col, int n)
     {
         for (int i = 0; i < n; i++)
         {
-            printf("%d", pos[i]);
+            if (i > 0)
+                write(1, " ", 1);
+            char c = pos[i] + '0';
+            write(1, &c, 1);
         }
-        printf("\n");
+        write(1, "\n", 1);
         return ;
     }
     for (int row = 0; row < n; row++)
@@ -50,5 +50,4 @@ int main(int ac, char **av)
         return 1;
     solve(pos, 0, n);
     free(pos);
-    return (0);
 }
