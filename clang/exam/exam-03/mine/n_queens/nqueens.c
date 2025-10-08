@@ -51,3 +51,4 @@ int main(int ac, char **av)
     solve(pos, 0, n);
     free(pos);
 }
+
